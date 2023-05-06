@@ -15,6 +15,7 @@ import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.HttpRequestUtils;
+import util.IOUtils;
 
 public class RequestHandler extends Thread {
     private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
@@ -36,7 +37,7 @@ public class RequestHandler extends Thread {
             String reuqestUrl = br.readLine();
             String path = HttpRequestUtils.parsePath(reuqestUrl);
 
-            if ("/user/create".equals(path)) {
+            if ("GET".equals(HttpRequestUtils.parseMethod(reuqestUrl)) && "/user/create".equals(path)) {
                 String parameters = HttpRequestUtils.parseParameter(reuqestUrl);
                 Map<String, String> queryStrings = HttpRequestUtils.parseQueryString(parameters);
 
@@ -46,6 +47,31 @@ public class RequestHandler extends Thread {
                 response200Header(dos, 0);
 
                 log.info(user.toString());
+                return;
+            }
+
+            if ("POST".equals(HttpRequestUtils.parseMethod(reuqestUrl)) && "/user/create".equals(path)) {
+                int contentLength = 0;
+                while (true) {
+                    String line = br.readLine();
+                    System.out.println("line = " + line);
+                    String[] split = line.split(": ");
+                    if ("Content-Length".equals(split[0])) {
+                        contentLength = Integer.parseInt(split[1]);
+                    }
+                    if ("".equals(line)) {
+                        break;
+                    }
+                }
+                String body = IOUtils.readData(br, contentLength);
+                Map<String, String> bodyValues = HttpRequestUtils.parseQueryString(body);
+
+                User user = new User(bodyValues);
+                log.info(user.toString());
+
+                DataOutputStream dos = new DataOutputStream(out);
+                response200Header(dos, 0);
+
                 return;
             }
 
@@ -63,10 +89,6 @@ public class RequestHandler extends Thread {
         DataOutputStream dos = new DataOutputStream(out);
         response200Header(dos, body.length);
         responseBody(dos, body);
-    }
-
-    private void handleGetSignUp() {
-
     }
 
     private void response200Header(DataOutputStream dos, int lengthOfBodyContent) {
