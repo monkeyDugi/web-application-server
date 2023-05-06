@@ -91,9 +91,9 @@ public class HttpRequestUtilsTest {
 
     @Test
     public void parseParameter() {
-        String generalPart = "GET /user/create?userId=lbd4946&password=1234&name=duck HTTP/1.1";
+        String startLine = "GET /user/create?userId=lbd4946&password=1234&name=duck HTTP/1.1";
 
-        String queryString = HttpRequestUtils.parseParameter(generalPart);
+        String queryString = HttpRequestUtils.parseParameter(startLine);
 
         assertThat(queryString, is("userId=lbd4946&password=1234&name=duck"));
     }
