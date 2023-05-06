@@ -97,4 +97,13 @@ public class HttpRequestUtilsTest {
 
         assertThat(queryString, is("userId=lbd4946&password=1234&name=duck"));
     }
+
+    @Test
+    public void parseMethod() {
+        String generalPart = "GET /user/create?userId=lbd4946&password=1234&name=duck HTTP/1.1";
+
+        String method = HttpRequestUtils.parseMethod(generalPart);
+
+        assertThat(method, is("GET"));
+    }
 }

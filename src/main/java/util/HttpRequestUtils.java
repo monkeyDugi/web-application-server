@@ -68,6 +68,10 @@ public class HttpRequestUtils {
         return url.substring(parameterStartIndex + 1);
     }
 
+    public static String parseMethod(String generalPart) {
+        return generalPart.split(" ")[0];
+    }
+
     public static class Pair {
         String key;
         String value;
