@@ -53,21 +53,48 @@ public class HttpRequestUtilsTest {
     }
 
     @Test
-    public void getKeyValue() throws Exception {
+    public void getKeyValue() {
         Pair pair = HttpRequestUtils.getKeyValue("userId=javajigi", "=");
         assertThat(pair, is(new Pair("userId", "javajigi")));
     }
 
     @Test
-    public void getKeyValue_invalid() throws Exception {
+    public void getKeyValue_invalid() {
         Pair pair = HttpRequestUtils.getKeyValue("userId", "=");
         assertThat(pair, is(nullValue()));
     }
 
     @Test
-    public void parseHeader() throws Exception {
+    public void parseHeader() {
         String header = "Content-Length: 59";
         Pair pair = HttpRequestUtils.parseHeader(header);
         assertThat(pair, is(new Pair("Content-Length", "59")));
+    }
+
+    @Test
+    public void parsePath_no_paramemter() {
+        String generalPart = "GET /index.html HTTP/1.1";
+
+        String path = HttpRequestUtils.parsePath(generalPart);
+
+        assertThat(path, is("/index.html"));
+    }
+
+    @Test
+    public void parsePath_parameter() {
+        String generalPart = "GET /user/create?userId=lbd4946&password=1234&name=duck HTTP/1.1";
+
+        String path = HttpRequestUtils.parsePath(generalPart);
+
+        assertThat(path, is("/user/create"));
+    }
+
+    @Test
+    public void parseParameter() {
+        String generalPart = "GET /user/create?userId=lbd4946&password=1234&name=duck HTTP/1.1";
+
+        String queryString = HttpRequestUtils.parseParameter(generalPart);
+
+        assertThat(queryString, is("userId=lbd4946&password=1234&name=duck"));
     }
 }
