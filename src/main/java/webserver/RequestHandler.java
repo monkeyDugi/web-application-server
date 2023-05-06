@@ -46,7 +46,7 @@ public class RequestHandler extends Thread {
                 DataOutputStream dos = new DataOutputStream(out);
                 response200Header(dos, 0);
 
-                log.info(user.toString());
+                log.debug(user.toString());
                 return;
             }
 
@@ -67,7 +67,7 @@ public class RequestHandler extends Thread {
                 Map<String, String> bodyValues = HttpRequestUtils.parseQueryString(body);
 
                 User user = new User(bodyValues);
-                log.info(user.toString());
+                log.debug(user.toString());
 
                 DataOutputStream dos = new DataOutputStream(out);
                 response200Header(dos, 0);
