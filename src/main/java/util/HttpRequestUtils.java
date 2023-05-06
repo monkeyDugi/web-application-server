@@ -61,8 +61,8 @@ public class HttpRequestUtils {
         return url.substring(0, parameterStartIndex);
     }
 
-    public static String parseParameter(String generalPart) {
-        String url = generalPart.split(" ")[1];
+    public static String parseParameter(String startLine) {
+        String url = startLine.split(" ")[1];
         int parameterStartIndex = url.indexOf("?");
 
         return url.substring(parameterStartIndex + 1);
