@@ -10,8 +10,11 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 import java.nio.file.Files;
+import java.util.Map;
+import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import util.HttpRequestUtils;
 
 public class RequestHandler extends Thread {
     private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
@@ -30,16 +33,40 @@ public class RequestHandler extends Thread {
             InputStreamReader isr = new InputStreamReader(in);
             BufferedReader br = new BufferedReader(isr);
 
-            String url = br.readLine().split(" ")[1];
-            File file = new File("./webapp" + url);
-            byte[] body = Files.readAllBytes(file.toPath());
+            String reuqestUrl = br.readLine();
+            String path = HttpRequestUtils.parsePath(reuqestUrl);
 
-            DataOutputStream dos = new DataOutputStream(out);
-            response200Header(dos, body.length);
-            responseBody(dos, body);
+            if ("/user/create".equals(path)) {
+                String parameters = HttpRequestUtils.parseParameter(reuqestUrl);
+                Map<String, String> queryStrings = HttpRequestUtils.parseQueryString(parameters);
+
+                User user = new User(queryStrings);
+
+                DataOutputStream dos = new DataOutputStream(out);
+                response200Header(dos, 0);
+
+                log.info(user.toString());
+                return;
+            }
+
+            handleWebappPage(out, path);
+
         } catch (IOException e) {
             log.error(e.getMessage());
         }
+    }
+
+    private void handleWebappPage(OutputStream out, String path) throws IOException {
+        File file = new File("./webapp" + path);
+        byte[] body = Files.readAllBytes(file.toPath());
+
+        DataOutputStream dos = new DataOutputStream(out);
+        response200Header(dos, body.length);
+        responseBody(dos, body);
+    }
+
+    private void handleGetSignUp() {
+
     }
 
     private void response200Header(DataOutputStream dos, int lengthOfBodyContent) {
