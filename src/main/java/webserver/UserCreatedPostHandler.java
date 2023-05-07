@@ -9,6 +9,7 @@
  */
 package webserver;
 
+import db.DataBase;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -32,12 +33,10 @@ public class UserCreatedPostHandler extends FrontHandler {
 
   private final BufferedReader request;
   private final OutputStream response;
-  private final UserRepository userRepository;
 
   public UserCreatedPostHandler(BufferedReader request, OutputStream response) {
     this.request = request;
     this.response = response;
-    this.userRepository = new UserRepository();
   }
 
   @Override
@@ -58,7 +57,7 @@ public class UserCreatedPostHandler extends FrontHandler {
     String body = IOUtils.readData(request, contentLength);
     Map<String, String> bodyValues = HttpRequestUtils.parseQueryString(body);
 
-    userRepository.save(new User(bodyValues));
+    DataBase.addUser(new User(bodyValues));
 
     DataOutputStream dos = new DataOutputStream(response);
     response302Header(dos);
