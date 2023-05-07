@@ -27,7 +27,7 @@
 * 
 
 ### 요구사항 5 - cookie로 로그인하기
-- [ ] 로그인 메뉴 클릭 시 `http://localhost:8080/user/login.html로` 이동해야 한다.
+- [x] 로그인 메뉴 클릭 시 `http://localhost:8080/user/login.html로` 이동해야 한다.
 - [ ] 성공 시 `/index.html`로 이동해야 한다.
 - [ ] 실패 시 `/user/login_failed.html`로 이동해야 한다.
 - [ ] 회원 가입한 사용자로 로그인 할 수 있어야 한다.
