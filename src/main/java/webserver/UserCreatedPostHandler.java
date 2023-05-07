@@ -41,6 +41,6 @@ public class UserCreatedPostHandler extends FrontHandler {
     DataBase.addUser(new User(bodyValues));
 
     DataOutputStream dos = new DataOutputStream(response);
-    response302Header(dos, "/index.html");
+    response302Header(dos, "/index.html", "");
   }
 }

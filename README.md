@@ -31,7 +31,7 @@
 - [x] 성공 시 `/index.html`로 이동해야 한다.
 - [x] 실패 시 `/user/login_failed.html`로 이동해야 한다.
 - [x] 회원 가입한 사용자로 로그인 할 수 있어야 한다.
-- [ ] 로그인 성공 시 로그인 유지를 위해 Cookie 헤더에 `logined=true`, 실패 시 Cookie 헤더에 `logined=false`로 전달해야 한다.
+- [x] 로그인 성공 시 로그인 유지를 위해 Cookie 헤더에 `logined=true`, 실패 시 Cookie 헤더에 `logined=false`로 응답해야 한다.
 - [ ] 쿠키 셋팅 후 요청마다 셋팅한 쿠키 오는지 확인
 
 ### 요구사항 6 - stylesheet 적용

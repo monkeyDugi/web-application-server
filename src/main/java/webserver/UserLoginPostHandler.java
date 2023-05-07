@@ -37,20 +37,24 @@ public class UserLoginPostHandler extends FrontHandler {
 
     String body = IOUtils.readData(request, contentLength);
     Map<String, String> bodyValues = HttpRequestUtils.parseQueryString(body);
-    String redirectPath = getRedirectPathByLogin(bodyValues);
+
+    boolean isValidatedLogin = isValidatedLogin(bodyValues);
+    String redirectPath = getRedirectPathByLogin(isValidatedLogin);
+    String cookie = isValidatedLogin ? "Set-Cookie: logined=true" : "Set-Cookie: logined=false";
 
     DataOutputStream dos = new DataOutputStream(response);
-    response302Header(dos, redirectPath);
+    response302Header(dos, redirectPath, cookie);
   }
 
-  private String getRedirectPathByLogin(Map<String, String> bodyValues) {
+  private static String getRedirectPathByLogin(boolean isValidatedLogin) {
+    return isValidatedLogin ? "/index.html" : "/user/login_failed.html";
+  }
+
+  private static boolean isValidatedLogin(Map<String, String> bodyValues) {
     String userId = bodyValues.get("userId");
     String password = bodyValues.get("password");
 
     User findUser = DataBase.findUserById(userId);
-    boolean isPassword = findUser.isValidatePassword(password);
-
-    return isPassword ? "/index.html" : "/user/login_failed.html";
-
+    return findUser.isValidateLogin(userId, password);
   }
 }

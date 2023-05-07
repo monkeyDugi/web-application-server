@@ -22,8 +22,8 @@ public class User {
         this.email = queryStrings.get("email");
     }
 
-    public boolean isValidatePassword(String password) {
-        return this.password.equals(password);
+    public boolean isValidateLogin(String userId, String password) {
+        return this.userId.equals(userId) && this.password.equals(password);
     }
 
     public String getUserId() {

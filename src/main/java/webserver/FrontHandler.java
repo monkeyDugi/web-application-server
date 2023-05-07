@@ -41,10 +41,13 @@ public abstract class FrontHandler {
     }
   }
 
-  protected void response302Header(DataOutputStream response, String redirectPath) {
+  protected void response302Header(DataOutputStream response, String redirectPath, String cookie) {
     try {
       response.writeBytes("HTTP/1.1 302 Found \r\n");
-      response.writeBytes("Location: http://localhost:8080" + redirectPath);
+      response.writeBytes("Location: http://localhost:8080" + redirectPath + "\r\n");
+      if (!"".equals(cookie)) {
+        response.writeBytes(cookie);
+      }
       response.writeBytes("\r\n");
     } catch (IOException e) {
       log.error(e.getMessage());
