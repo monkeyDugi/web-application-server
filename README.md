@@ -37,7 +37,9 @@
     확인 해보니 Session Cookie이던데 브라우저를 닫지도 않았는데 페이지를 이동하면 사라진다.
   - 302 응답으로 Set-Cookie를 했는데 왜 해당 요청에 Request Header에 Set-Cookie의 값이 담겨 있지?
   - root 페이지는 cookie request가 안되고, 다른 곳들은 cookie request를 하네? cookie가 사라진다.
-
+- [ ] 사용자 목록 출력
+  - [ ] logined=true이면 /user/list로 요청 시 사용자 목록을 StringBuilder 직접 그려서 응답한다.
+  - [x] 로그인하지 않은 상태라면 login.html로 이동하다.
 ### 요구사항 6 - stylesheet 적용
 *
 

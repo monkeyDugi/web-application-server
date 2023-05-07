@@ -25,6 +25,10 @@ public abstract class FrontHandler {
       new UserLoginPostHandler(request, response).execute("");
     }
 
+    if ("GET".equals(HttpRequestUtils.parseMethod(reuqestUrl)) && "/user/list".equals(path)) {
+      new UserListGetHandler(request, response).execute("");
+    }
+
     new WebappPageController(response).execute(path);
   }
 
