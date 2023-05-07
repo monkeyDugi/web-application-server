@@ -59,6 +59,6 @@ public class UserCreatedPostHandler extends FrontHandler {
     new User(bodyValues);
 
     DataOutputStream dos = new DataOutputStream(response);
-    response200Header(dos, 0);
+    response302Header(dos);
   }
 }
