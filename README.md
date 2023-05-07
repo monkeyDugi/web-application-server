@@ -26,11 +26,15 @@
 ### 요구사항 4 - redirect 방식으로 이동
 * 
 
-### 요구사항 5 - cookie
+### 요구사항 5 - cookie로 로그인하기
 * 
 
 ### 요구사항 6 - stylesheet 적용
-* 
+- [ ] 로그인 메뉴 클릭 시 `http://localhost:8080/user/login.html로` 이동해야 한다.
+- [ ] 성공 시 `/index.html`로 이동해야 한다.
+- [ ] 실패 시 `/user/login_failed.html`로 이동해야 한다.
+- [ ] 회원 가입한 사용자로 로그인 할 수 있어야 한다.
+- [ ] 로그인 성공 시 로그인 유지를 위해 Cookie 헤더에 `logined=true`, 실패 시 Cookie 헤더에 `logined=false`로 전달해야 한다.
 
 ### heroku 서버에 배포 후
 * 
