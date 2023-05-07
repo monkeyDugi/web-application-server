@@ -2,6 +2,7 @@ package webserver;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import org.slf4j.Logger;
@@ -30,6 +31,16 @@ public abstract class FrontHandler {
       response.writeBytes("HTTP/1.1 200 OK \r\n");
       response.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
       response.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
+      response.writeBytes("\r\n");
+    } catch (IOException e) {
+      log.error(e.getMessage());
+    }
+  }
+
+  protected void response302Header(DataOutputStream response) {
+    try {
+      response.writeBytes("HTTP/1.1 302 Found \r\n");
+      response.writeBytes("Location: http://localhost:8080/index.html");
       response.writeBytes("\r\n");
     } catch (IOException e) {
       log.error(e.getMessage());
