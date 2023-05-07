@@ -32,10 +32,12 @@ public class UserCreatedPostHandler extends FrontHandler {
 
   private final BufferedReader request;
   private final OutputStream response;
+  private final UserRepository userRepository;
 
   public UserCreatedPostHandler(BufferedReader request, OutputStream response) {
     this.request = request;
     this.response = response;
+    this.userRepository = new UserRepository();
   }
 
   @Override
@@ -56,7 +58,7 @@ public class UserCreatedPostHandler extends FrontHandler {
     String body = IOUtils.readData(request, contentLength);
     Map<String, String> bodyValues = HttpRequestUtils.parseQueryString(body);
 
-    new User(bodyValues);
+    userRepository.save(new User(bodyValues));
 
     DataOutputStream dos = new DataOutputStream(response);
     response302Header(dos);
