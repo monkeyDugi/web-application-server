@@ -29,15 +29,15 @@ public abstract class FrontHandler {
       new UserListGetHandler(request, response).execute("");
     }
 
-    new WebappPageController(response).execute(path);
+    new WebappPageController(request, response).execute(path);
   }
 
   protected abstract void execute(String path) throws IOException;
 
-  protected void response200Header(DataOutputStream response, int lengthOfBodyContent) {
+  protected void response200Header(DataOutputStream response, String contentType, int lengthOfBodyContent) {
     try {
       response.writeBytes("HTTP/1.1 200 OK \r\n");
-      response.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
+      response.writeBytes("Content-Type: " + contentType + ";charset=utf-8\r\n");
       response.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
       response.writeBytes("\r\n");
     } catch (IOException e) {

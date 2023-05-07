@@ -41,7 +41,7 @@
   - [x] logined=true이면 /user/list로 요청 시 사용자 목록을 StringBuilder 직접 그려서 응답한다.
   - [x] 로그인하지 않은 상태라면 login.html로 이동하다.
 ### 요구사항 6 - stylesheet 적용
-*
+- [x] css 적용하기. accept 활용
 
 ### heroku 서버에 배포 후
 * 

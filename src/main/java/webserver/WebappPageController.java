@@ -1,5 +1,6 @@
 package webserver;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -9,9 +10,11 @@ import java.nio.file.Path;
 
 public class WebappPageController extends FrontHandler {
 
+  private final BufferedReader request;
   private final OutputStream response;
 
-  public WebappPageController(OutputStream response) {
+  public WebappPageController(BufferedReader request, OutputStream response) {
+    this.request = request;
     this.response = response;
   }
 
@@ -20,7 +23,28 @@ public class WebappPageController extends FrontHandler {
     byte[] body = Files.readAllBytes(getWebappFileApth(path));
 
     DataOutputStream dataOutputStream = new DataOutputStream(response);
-    response200Header(dataOutputStream, body.length);
+    String contentType = "text/html";
+
+    while (true) {
+      String line = request.readLine();
+      String[] split = line.split(": ");
+
+      if ("Accept".equals(split[0])) {
+        String[] acceptValues = split[1].split(",");
+        for (String acceptValue : acceptValues) {
+          if ("text/css".equals(acceptValue)) {
+            contentType = "text/css";
+            break;
+          }
+        }
+      }
+
+      if ("".equals(line)) {
+        break;
+      }
+    }
+
+    response200Header(dataOutputStream, contentType, body.length);
     responseBody(dataOutputStream, body);
   }
 

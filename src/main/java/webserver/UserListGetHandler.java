@@ -22,7 +22,7 @@ public class UserListGetHandler extends FrontHandler {
 
   @Override
   public void execute(String unused) throws IOException {
-    String cookies = "";
+    String cookies;
     while (true) {
       String line = request.readLine();
       String[] split = line.split(": ");
@@ -40,7 +40,7 @@ public class UserListGetHandler extends FrontHandler {
     if (isLogined) {
       byte[] body = createUserListHtml().getBytes();
 
-      response200Header(dos, body.length);
+      response200Header(dos, "text/html", body.length);
       responseBody(dos, body);
     } else {
       response302Header(dos, "/user/login.html", "");
