@@ -27,14 +27,21 @@
 * 
 
 ### 요구사항 5 - cookie로 로그인하기
-* 
-
+- [x] 로그인 메뉴 클릭 시 `http://localhost:8080/user/login.html로` 이동해야 한다.
+- [x] 성공 시 `/index.html`로 이동해야 한다.
+- [x] 실패 시 `/user/login_failed.html`로 이동해야 한다.
+- [x] 회원 가입한 사용자로 로그인 할 수 있어야 한다.
+- [x] 로그인 성공 시 로그인 유지를 위해 Cookie 헤더에 `logined=true`, 실패 시 Cookie 헤더에 `logined=false`로 응답해야 한다.
+- [ ] 쿠키 셋팅 후 요청마다 셋팅한 쿠키 오는지 확인
+  - 302 응답으로 Set-Cookie가 확인 되었는데 이후 요청에서 Cookie Request가 안된다.  
+    확인 해보니 Session Cookie이던데 브라우저를 닫지도 않았는데 페이지를 이동하면 사라진다.
+  - 302 응답으로 Set-Cookie를 했는데 왜 해당 요청에 Request Header에 Set-Cookie의 값이 담겨 있지?
+  - root 페이지는 cookie request가 안되고, 다른 곳들은 cookie request를 하네? cookie가 사라진다.
+- [x] 사용자 목록 출력
+  - [x] logined=true이면 /user/list로 요청 시 사용자 목록을 StringBuilder 직접 그려서 응답한다.
+  - [x] 로그인하지 않은 상태라면 login.html로 이동하다.
 ### 요구사항 6 - stylesheet 적용
-- [ ] 로그인 메뉴 클릭 시 `http://localhost:8080/user/login.html로` 이동해야 한다.
-- [ ] 성공 시 `/index.html`로 이동해야 한다.
-- [ ] 실패 시 `/user/login_failed.html`로 이동해야 한다.
-- [ ] 회원 가입한 사용자로 로그인 할 수 있어야 한다.
-- [ ] 로그인 성공 시 로그인 유지를 위해 Cookie 헤더에 `logined=true`, 실패 시 Cookie 헤더에 `logined=false`로 전달해야 한다.
+- [x] css 적용하기. accept 활용
 
 ### heroku 서버에 배포 후
 * 

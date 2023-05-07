@@ -10,12 +10,12 @@ import model.User;
 import util.HttpRequestUtils;
 import util.IOUtils;
 
-public class UserCreatedPostHandler extends FrontHandler {
+public class UserLoginPostHandler extends FrontHandler {
 
   private final BufferedReader request;
   private final OutputStream response;
 
-  public UserCreatedPostHandler(BufferedReader request, OutputStream response) {
+  public UserLoginPostHandler(BufferedReader request, OutputStream response) {
     this.request = request;
     this.response = response;
   }
@@ -38,9 +38,23 @@ public class UserCreatedPostHandler extends FrontHandler {
     String body = IOUtils.readData(request, contentLength);
     Map<String, String> bodyValues = HttpRequestUtils.parseQueryString(body);
 
-    DataBase.addUser(new User(bodyValues));
+    boolean isValidatedLogin = isValidatedLogin(bodyValues);
+    String redirectPath = getRedirectPathByLogin(isValidatedLogin);
+    String cookie = isValidatedLogin ? "Set-Cookie: logined=true" : "Set-Cookie: logined=false";
 
     DataOutputStream dos = new DataOutputStream(response);
-    response302Header(dos, "/index.html", "");
+    response302Header(dos, redirectPath, cookie);
+  }
+
+  private static String getRedirectPathByLogin(boolean isValidatedLogin) {
+    return isValidatedLogin ? "/index.html" : "/user/login_failed.html";
+  }
+
+  private static boolean isValidatedLogin(Map<String, String> bodyValues) {
+    String userId = bodyValues.get("userId");
+    String password = bodyValues.get("password");
+
+    User findUser = DataBase.findUserById(userId);
+    return findUser.isValidateLogin(userId, password);
   }
 }

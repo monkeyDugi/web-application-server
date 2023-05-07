@@ -21,15 +21,23 @@ public abstract class FrontHandler {
       new UserCreatedPostHandler(request, response).execute("");
     }
 
-    new WebappPageController(response).execute(path);
+    if ("POST".equals(HttpRequestUtils.parseMethod(reuqestUrl)) && "/user/login".equals(path)) {
+      new UserLoginPostHandler(request, response).execute("");
+    }
+
+    if ("GET".equals(HttpRequestUtils.parseMethod(reuqestUrl)) && "/user/list".equals(path)) {
+      new UserListGetHandler(request, response).execute("");
+    }
+
+    new WebappPageController(request, response).execute(path);
   }
 
   protected abstract void execute(String path) throws IOException;
 
-  protected void response200Header(DataOutputStream response, int lengthOfBodyContent) {
+  protected void response200Header(DataOutputStream response, String contentType, int lengthOfBodyContent) {
     try {
       response.writeBytes("HTTP/1.1 200 OK \r\n");
-      response.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
+      response.writeBytes("Content-Type: " + contentType + ";charset=utf-8\r\n");
       response.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
       response.writeBytes("\r\n");
     } catch (IOException e) {
@@ -37,10 +45,13 @@ public abstract class FrontHandler {
     }
   }
 
-  protected void response302Header(DataOutputStream response) {
+  protected void response302Header(DataOutputStream response, String redirectPath, String cookie) {
     try {
       response.writeBytes("HTTP/1.1 302 Found \r\n");
-      response.writeBytes("Location: http://localhost:8080/index.html");
+      response.writeBytes("Location: http://localhost:8080" + redirectPath + "\r\n");
+      if (!"".equals(cookie)) {
+        response.writeBytes(cookie);
+      }
       response.writeBytes("\r\n");
     } catch (IOException e) {
       log.error(e.getMessage());
