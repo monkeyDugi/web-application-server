@@ -22,10 +22,8 @@ public class User {
         this.email = queryStrings.get("email");
     }
 
-    public void validatePassword(String password) {
-        if (!this.password.equals(password)) {
-            throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
-        }
+    public boolean isValidatePassword(String password) {
+        return this.password.equals(password);
     }
 
     public String getUserId() {

@@ -37,14 +37,20 @@ public class UserLoginPostHandler extends FrontHandler {
 
     String body = IOUtils.readData(request, contentLength);
     Map<String, String> bodyValues = HttpRequestUtils.parseQueryString(body);
+    String redirectPath = getRedirectPathByLogin(bodyValues);
 
+    DataOutputStream dos = new DataOutputStream(response);
+    response302Header(dos, redirectPath);
+  }
+
+  private String getRedirectPathByLogin(Map<String, String> bodyValues) {
     String userId = bodyValues.get("userId");
     String password = bodyValues.get("password");
 
     User findUser = DataBase.findUserById(userId);
-    findUser.validatePassword(password);
+    boolean isPassword = findUser.isValidatePassword(password);
 
-    DataOutputStream dos = new DataOutputStream(response);
-    response302Header(dos);
+    return isPassword ? "/index.html" : "/user/login_failed.html";
+
   }
 }

@@ -41,10 +41,10 @@ public abstract class FrontHandler {
     }
   }
 
-  protected void response302Header(DataOutputStream response) {
+  protected void response302Header(DataOutputStream response, String redirectPath) {
     try {
       response.writeBytes("HTTP/1.1 302 Found \r\n");
-      response.writeBytes("Location: http://localhost:8080/index.html");
+      response.writeBytes("Location: http://localhost:8080" + redirectPath);
       response.writeBytes("\r\n");
     } catch (IOException e) {
       log.error(e.getMessage());
