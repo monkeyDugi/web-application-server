@@ -33,6 +33,10 @@
 - [x] 회원 가입한 사용자로 로그인 할 수 있어야 한다.
 - [x] 로그인 성공 시 로그인 유지를 위해 Cookie 헤더에 `logined=true`, 실패 시 Cookie 헤더에 `logined=false`로 응답해야 한다.
 - [ ] 쿠키 셋팅 후 요청마다 셋팅한 쿠키 오는지 확인
+  - 302 응답으로 Set-Cookie가 확인 되었는데 이후 요청에서 Cookie Request가 안된다.  
+    확인 해보니 Session Cookie이던데 브라우저를 닫지도 않았는데 페이지를 이동하면 사라진다.
+  - 302 응답으로 Set-Cookie를 했는데 왜 해당 요청에 Request Header에 Set-Cookie의 값이 담겨 있지?
+  - root 페이지는 cookie request가 안되고, 다른 곳들은 cookie request를 하네? cookie가 사라진다.
 
 ### 요구사항 6 - stylesheet 적용
 *
